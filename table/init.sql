@@ -40,8 +40,8 @@ create table repairJob
   ownerinfo varchar(100),
   status varchar(15) not null,
   check (status in('UNDER_REPAIR','READY','DONE')),
-  foreign key machineid references repairItem(itemid),
-  foreign key servicecontractid references serviceContract(contractid)
+  foreign key (machineid) references repairItem(itemid),
+  foreign key (servicecontractid) references serviceContract(contractid)
 );
 
 create table problemReport
@@ -69,6 +69,6 @@ create table customerBill
   repairpersonid varchar(5),
   laborhours decimal(10,2),
   cost number(10,2),
-  foreign key repairpersonid references employee(employeeNo),
-  foreign key problemid references problemReport(problemid)
+  foreign key (repairpersonid) references employee(employeeNo),
+  foreign key (problemid) references problemReport(problemid)
 );
