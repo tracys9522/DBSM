@@ -1,5 +1,6 @@
+
 create table customer(
-  custid varchar(5) primary key,
+  customerid varchar(5) primary key,
   name varchar(10),
   phoneno char(10) unique
 );
@@ -17,19 +18,50 @@ create table repairItem
 
 create table serviceContract
 (
-  contracteid varchar(5) primary key,
+  contractid varchar(5) primary key,
   machineid varchar(5),
   startdate date,
   enddate date,
-  custinfo varchar(100)
+  customerinfo varchar(100)
 );
 
 create table repairJob
 (
-  machineid varchar(5),
+  machineid varchar(5) primary key,
   servicecontractid varchar(5),
   arrivaltime datetime,
   ownerinfo varchar(100),
   status varchar(15) not null,
-  check (status in('UNDER_REPAIR','READY','DONE'))
+  check (status in('UNDER_REPAIR','READY','DONE')),
+  foreign key machineid references repairItem(itemid),
+  foreign key servicecontractid references serviceContract(contractid)
+);
+
+create table problemReport
+(
+  problemid varchar(5) primary key,
+  problemcode varchar(100)
+);
+
+create table employee
+(
+  employeeNo varchar (5) primary key,
+  name varchar(15),
+  phone char(10)
+);
+
+create table customerBill
+(
+  machineid varchar(5) primary key,
+  model varchar(15),
+  customerName varchar(10),
+  phoneNo varchar(10),
+  timein time,
+  timeout time,
+  problemid varchar(5),
+  repairpersonid varchar(5),
+  laborhours decimal(10,2),
+  cost number(10,2),
+  foreign key repairpersonid references employee(employeeNo),
+  foreign key problemid references problemReport(problemid)
 );
