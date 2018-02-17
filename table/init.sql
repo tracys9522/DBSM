@@ -4,7 +4,7 @@ drop table customer;
 drop table repairItem;
 drop table serviceContract;
 drop table problemReport;
-drop table employee;
+drop table repairPerson;
 
 create table customer(
   customerid varchar(5) primary key,
@@ -14,12 +14,14 @@ create table customer(
 
 create table repairItem
 (
-  itemid varchar(5),
+  itemid varchar(5) primary key,
   model varchar(10),
   price decimal(10,2),
   year varchar(4),
+  item varchar(15),
   serviceContractType varchar(6) default 'NONE',
-  check(serviceContractType in ('NONE','SINGLE','GROUP'))
+  check(serviceContractType in ('NONE','SINGLE','GROUP')),
+  check(item in ('computer','printer'))
 );
 
 
@@ -29,7 +31,9 @@ create table serviceContract
   machineid varchar(5),
   startdate date,
   enddate date,
-  customerinfo varchar(100)
+  customerinfo varchar(100),
+  serviceContractType varchar(6) default 'NONE',
+  check(serviceContractType in ('NONE','SINGLE','GROUP'))
 );
 
 create table repairJob
@@ -50,7 +54,7 @@ create table problemReport
   problemcode varchar(100)
 );
 
-create table employee
+create table repairPerson
 (
   employeeNo varchar (5) primary key,
   name varchar(15),
@@ -69,6 +73,6 @@ create table customerBill
   repairpersonid varchar(5),
   laborhours decimal(10,2),
   cost number(10,2),
-  foreign key (repairpersonid) references employee(employeeNo),
+  foreign key (repairpersonid) references repairPerson(employeeNo),
   foreign key (problemid) references problemReport(problemid)
 );
