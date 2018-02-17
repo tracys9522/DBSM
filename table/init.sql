@@ -1,3 +1,10 @@
+drop table customerBill;
+drop table repairJob;
+drop table customer;
+drop table repairItem;
+drop table serviceContract;
+drop table problemReport;
+drop table employee;
 
 create table customer(
   customerid varchar(5) primary key,
