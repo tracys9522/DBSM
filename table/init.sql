@@ -7,33 +7,36 @@ drop table problemReport;
 drop table repairPerson;
 
 create table customer(
-  customerid INT AUTO_INCREMENT primary key,
+  customerid INT AUTO_INCREMENT,
   name varchar(10),
-  phoneno char(10) unique
+  phoneno char(10) unique,
+  primary key(customerid)
 );
 
 create table repairItem
 (
-  itemid INT AUTO_INCREMENT primary key,
+  itemid INT AUTO_INCREMENT,
   model varchar(10),
   price decimal(10,2),
   year varchar(4),
   item varchar(15),
   serviceContractType varchar(6) default 'NONE',
   check(serviceContractType in ('NONE','SINGLE','GROUP')),
-  check(item in ('COMPUTER','PRINTER'))
+  check(item in ('COMPUTER','PRINTER')),
+  primary key(itemid)
 );
 
 
 create table serviceContract
 (
-  contractid  INT AUTO_INCREMENT primary key,
+  contractid  INT AUTO_INCREMENT,
   machineid varchar(10),
   startdate date,
   enddate date,
   customerinfo varchar(100),
   serviceContractType varchar(6) default 'NONE',
-  check(serviceContractType in ('NONE','SINGLE','GROUP'))
+  check(serviceContractType in ('NONE','SINGLE','GROUP')),
+  primary key(contractid)
 );
 
 create table repairJob
@@ -57,9 +60,10 @@ create table problemReport
 
 create table repairPerson
 (
-  employeeNo INT AUTO_INCREMENT primary key,
+  employeeNo INT AUTO_INCREMENT,
   name varchar(15),
-  phone char(10)
+  phone char(10),
+  primary key (employeeNo)
 );
 
 create table customerBill
