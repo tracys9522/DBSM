@@ -1,13 +1,13 @@
 drop table customerBill;
 drop table repairJob;
 drop table customer;
-drop table repairItem;
 drop table serviceContract;
 drop table problemReport;
 drop table repairPerson;
+drop table repairItem;
 
 create table customer(
-  customerid INT AUTO_INCREMENT,
+  customerid INTEGER,
   name varchar(10),
   phoneno char(10) unique,
   primary key(customerid)
@@ -15,7 +15,7 @@ create table customer(
 
 create table repairItem
 (
-  itemid INT AUTO_INCREMENT,
+  itemid INTEGER,
   model varchar(10),
   price decimal(10,2),
   year varchar(4),
@@ -29,7 +29,7 @@ create table repairItem
 
 create table serviceContract
 (
-  contractid  INT AUTO_INCREMENT,
+  contractid  INTEGER,
   machineid varchar(10),
   startdate date,
   enddate date,
@@ -41,8 +41,8 @@ create table serviceContract
 
 create table repairJob
 (
-  machineid INT primary key,
-  servicecontractid INT,
+  machineid INTEGER primary key,
+  servicecontractid INTEGER,
   arrivaltime timestamp,
   ownerinfo varchar(100),
   status varchar(15) not null,
@@ -53,14 +53,14 @@ create table repairJob
 
 create table problemReport
 (
-  problemid INT primary key,
+  problemid INTEGER primary key,
   problemcode varchar(10),
   foreign key (problemid) references repairItem(itemid)
 );
 
 create table repairPerson
 (
-  employeeNo INT AUTO_INCREMENT,
+  employeeNo INTEGER,
   name varchar(15),
   phone char(10),
   primary key (employeeNo)
