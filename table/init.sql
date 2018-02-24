@@ -110,7 +110,6 @@ start with 1
 increment by 1
 cache 50;
 
-
 create or replace trigger repairJob_increment
 before insert on repairJob
 for each row
@@ -133,7 +132,6 @@ create sequence prid
 start with 1
 increment by 1
 cache 50;
-
 
 create or replace trigger problemReport_increment
 before insert on problemReport
@@ -158,7 +156,6 @@ create sequence rpid
 start with 1
 increment by 1
 cache 50;
-
 
 create or replace trigger repairPerson_increment
 before insert on repairPerson
@@ -186,4 +183,3 @@ create table customerBill
   foreign key (repairpersonid) references repairPerson(employeeNo),
   foreign key (problemid) references problemReport(problemid)
 );
-
