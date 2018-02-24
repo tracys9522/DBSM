@@ -1,3 +1,9 @@
+drop sequence cid;
+drop sequence riid;
+drop sequence scid;
+drop sequence rjid;
+drop sequence prid;
+drop sequence rpid;
 drop table customerBill;
 drop table repairJob;
 drop table customer;
@@ -13,6 +19,23 @@ create table customer(
   primary key(customerid)
 );
 
+create sequence cid
+start with 1
+increment by 1
+cache 50;
+
+create or replace trigger customer_increment
+before insert on customer
+for each row
+begin
+	select cid.nextval
+	into :new.customerid
+	from dual;
+end;
+/
+Show errors; 
+
+
 create table repairItem
 (
   itemid INTEGER,
@@ -21,11 +44,26 @@ create table repairItem
   year varchar(4),
   item varchar(15),
   serviceContractType varchar(6) default 'NONE',
-  check(serviceContractType in ('NONE','SINGLE','GROUP')),
   check(item in ('COMPUTER','PRINTER')),
+  check(serviceContractType in ('NONE','SINGLE','GROUP')),
   primary key(itemid)
 );
 
+create sequence riid
+start with 1
+increment by 1
+cache 50;
+
+create or replace trigger repairItem_increment
+before insert on repairItem
+for each row
+begin
+	select riid.nextval
+	into :new.itemid
+	from dual;
+end;
+/
+Show errors; 
 
 create table serviceContract
 (
@@ -39,6 +77,22 @@ create table serviceContract
   primary key(contractid)
 );
 
+create sequence scid
+start with 1
+increment by 1
+cache 50;
+
+create or replace trigger serviceContract_increment
+before insert on serviceContract
+for each row
+begin
+	select scid.nextval
+	into :new.contractid
+	from dual;
+end;
+/
+Show errors; 
+
 create table repairJob
 (
   machineid INTEGER primary key,
@@ -51,12 +105,46 @@ create table repairJob
   foreign key (servicecontractid) references serviceContract(contractid)
 );
 
+create sequence rjid
+start with 1
+increment by 1
+cache 50;
+
+
+create or replace trigger repairJob_increment
+before insert on repairJob
+for each row
+begin
+	select rjid.nextval
+	into :new.servicecontractid
+	from dual;
+end;
+/
+Show errors; 
+
 create table problemReport
 (
   problemid INTEGER primary key,
   problemcode varchar(10),
   foreign key (problemid) references repairItem(itemid)
 );
+
+create sequence prid
+start with 1
+increment by 1
+cache 50;
+
+
+create or replace trigger problemReport_increment
+before insert on problemReport
+for each row
+begin
+	select prid.nextval
+	into :new.problemid
+	from dual;
+end;
+/
+Show errors; 
 
 create table repairPerson
 (
@@ -65,6 +153,23 @@ create table repairPerson
   phone char(10),
   primary key (employeeNo)
 );
+
+create sequence rpid
+start with 1
+increment by 1
+cache 50;
+
+
+create or replace trigger repairPerson_increment
+before insert on repairPerson
+for each row
+begin
+	select rpid.nextval
+	into :new.employeeNo
+	from dual;
+end;
+/
+Show errors; 
 
 create table customerBill
 (
@@ -81,3 +186,4 @@ create table customerBill
   foreign key (repairpersonid) references repairPerson(employeeNo),
   foreign key (problemid) references problemReport(problemid)
 );
+
