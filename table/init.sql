@@ -4,13 +4,14 @@ drop sequence scid;
 drop sequence rjid;
 drop sequence prid;
 drop sequence rpid;
+
 drop table customerBill;
 drop table repairJob;
-drop table customer;
 drop table serviceContract;
 drop table problemReport;
 drop table repairPerson;
 drop table repairItem;
+drop table customer;
 
 create table customer(
   customerid INTEGER,
