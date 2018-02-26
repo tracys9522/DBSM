@@ -39,7 +39,7 @@ Show errors;
 create table repairItem
 (
   itemid INTEGER,
-  custid INT not null;
+  custid INT not null,
   model varchar(10),
   price decimal(10,2),
   year varchar(4),
