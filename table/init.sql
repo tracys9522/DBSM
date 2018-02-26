@@ -14,7 +14,7 @@ drop table repairItem;
 
 create table customer(
   customerid INTEGER,
-  name varchar(10),
+  name varchar(10) not null,
   phoneno char(10) unique,
   primary key(customerid)
 );
