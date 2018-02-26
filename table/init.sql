@@ -33,12 +33,13 @@ begin
 	from dual;
 end;
 /
-Show errors; 
+Show errors;
 
 
 create table repairItem
 (
   itemid INTEGER,
+  custid INT not null;
   model varchar(10),
   price decimal(10,2),
   year varchar(4),
@@ -46,7 +47,8 @@ create table repairItem
   serviceContractType varchar(6) default 'NONE',
   check(item in ('COMPUTER','PRINTER')),
   check(serviceContractType in ('NONE','SINGLE','GROUP')),
-  primary key(itemid)
+  primary key(itemid),
+  foreign key (custid) references customer (customerid)
 );
 
 create sequence riid
@@ -63,7 +65,7 @@ begin
 	from dual;
 end;
 /
-Show errors; 
+Show errors;
 
 create table serviceContract
 (
@@ -91,7 +93,7 @@ begin
 	from dual;
 end;
 /
-Show errors; 
+Show errors;
 
 create table repairJob
 (
@@ -119,7 +121,7 @@ begin
 	from dual;
 end;
 /
-Show errors; 
+Show errors;
 
 create table problemReport
 (
@@ -142,7 +144,7 @@ begin
 	from dual;
 end;
 /
-Show errors; 
+Show errors;
 
 create table repairPerson
 (
@@ -166,7 +168,7 @@ begin
 	from dual;
 end;
 /
-Show errors; 
+Show errors;
 
 create table customerBill
 (
