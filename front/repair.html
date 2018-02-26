@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"/><title>Repair Items</title>
+</head>
+<body>
+<form method="post" action="http://students.engr.scu.edu/~tsun/repair.php">
+  <fieldset>
+  <legend style="color:blue;font-size:30px">Repair Items</legend>
+   <label for="item">item:</label>
+   <input type="text" placeholder = "computer or printer" name="item" id="item"> <br/>
+   <label for="model">model:</label>
+   <input type="text" name="model" id="model"> <br/>
+   <label for="price">price:</label>
+   <input type="text" name="price" id="price"> <br/>
+   <label for="year">year:</label>
+   <input type="text" name="year" id="year"> <br/>
+   </fieldset>
+
+  <br/><br/>
+  <input type="submit" value="Submit">
+  <input type="reset" value="cancel" onclick = "window.location.href = 'repair.html'" >
+ </form>
+ </body>
+</html>
