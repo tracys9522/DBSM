@@ -75,21 +75,21 @@ create table repairJob
 
 create table problem
 (
-  problemid varchar(5),
-  description varchar(10),
-  foreign key (problemid) references problemReport(problemid)
+  problemid varchar(5) primary key,
+  description varchar(10)
 );
 
 create table problemReport
 (
     machineid varchar(5) primary key,
-    problemid varchar(5) primary key,
+    problemid varchar(5),
+    foreign key (problemid) references problem(problemid),
     foreign key (machineid) references repairItem(itemid)
 );
 create table customerBill
 (
   machineid varchar(5) primary key,
-  model varchar(15),
+  model varchar(10),
   customerName varchar(10),
   phoneNo varchar(10),
   timein timestamp,
@@ -99,11 +99,7 @@ create table customerBill
   laborhours decimal(10,2),
   cost number(10,2),
   coverage char(1) check(coverage in('Y','N')),
-
   foreign key (machineid) references repairItem(itemid),
-  foreign key (model) references repairItem(model),
-  foreign key (customerName) references customer(name),
-  foreign key (phoneNo) references customer(phoneno),
   foreign key (repairpersonid) references repairPerson(employeeNo),
-  foreign key (problemid) references problemReport(problemid)
+  foreign key (problemid) references problem(problemid)
 );
