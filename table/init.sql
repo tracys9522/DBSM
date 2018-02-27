@@ -71,7 +71,7 @@ Show errors;
 create table serviceContract
 (
   contractid  INTEGER,
-  machineid varchar(10),
+  machineid INTEGER,
   startdate date,
   enddate date,
   customerinfo varchar(100),
@@ -126,9 +126,17 @@ Show errors;
 
 create table problemReport
 (
-  problemid INTEGER primary key,
-  problemcode varchar(10),
-  foreign key (problemid) references repairItem(itemid)
+  problemid INTEGER,
+  problemcode INTEGER,
+  foreign key (problemid) references repairItem(itemid),
+  primary key (problemid,problemcode)
+);
+
+create table problemlist
+(
+    problemcode INTEGER,
+    description varchar(10),
+    foreign key (problemcode) references problemReport(problemcode)
 );
 
 create sequence prid
@@ -183,6 +191,11 @@ create table customerBill
   repairpersonid INT,
   laborhours decimal(10,2),
   cost number(10,2),
+
+  foreign key (machineid) references repairItem(itemid),
+  foreign key (model) references repairItem(model),
+  foreign key (customerName) references customer(name),
+  foreign key (phoneNo) references customer(phoneno),
   foreign key (repairpersonid) references repairPerson(employeeNo),
   foreign key (problemid) references problemReport(problemid)
 );
