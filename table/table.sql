@@ -1,13 +1,13 @@
 drop table customerBill;
+drop table problemReport;
+drop table problem;
 drop table repairJob;
+drop table repairItem;
 drop table singleContract;
 drop table groupContract;
 drop table serviceContract;
-drop table problemReport;
-drop table problem;
-drop table repairPerson;
-drop table repairItem;
 drop table customer;
+drop table repairPerson;
 
 create table customer(
   customerid varchar(5) primary key,
@@ -17,7 +17,7 @@ create table customer(
 
 create table repairPerson
 (
-  employeeNo varchar(5) primary key,
+  employeeid varchar(5) primary key,
   name varchar(15) not null,
   phone char(10) not null
 );
@@ -50,7 +50,7 @@ create table groupContract
 create table repairItem
 (
   itemid varchar(5) primary key,
-  custid varchar(5) not null,
+  custid varchar(5),
   model varchar(10),
   price decimal(10,2),
   year varchar(4),
@@ -64,42 +64,45 @@ create table repairItem
 create table repairJob
 (
   machineid varchar(5) primary key,
+  itemid varchar(5),
   servicecontractid varchar(5),
   arrivaltime timestamp,
-  ownerinfo varchar(100),
+  customerid varchar(5),
   status varchar(15) not null,
   check (status in('UNDER_REPAIR','READY','DONE')),
-  foreign key (machineid) references repairItem(itemid),
-  foreign key (servicecontractid) references serviceContract(contractid)
+  foreign key (servicecontractid) references serviceContract(contractid),
+  foreign key (customerid) references customer(customerid),
+  foreign key (itemid) references repairItem(itemid)
 );
 
 create table problem
 (
-  problemid varchar(5) primary key,
-  description varchar(10)
+  	problemid varchar(5) primary key,
+  	description varchar(10)
 );
 
 create table problemReport
 (
     machineid varchar(5) primary key,
     problemid varchar(5),
-    foreign key (problemid) references problem(problemid),
-    foreign key (machineid) references repairItem(itemid)
+    foreign key (machineid) references repairJob(machineid),
+	foreign key (problemid) references problem(problemid)
 );
+
 create table customerBill
 (
   machineid varchar(5) primary key,
+  customerid varchar(5),
+  employeeid varchar(5),
+  problemid varchar(5),
   model varchar(10),
-  customerName varchar(10),
-  phoneNo varchar(10),
   timein timestamp,
   timeout timestamp,
-  problemid varchar(5),
-  repairpersonid varchar(5),
   laborhours decimal(10,2),
   cost number(10,2),
   coverage char(1) check(coverage in('Y','N')),
-  foreign key (machineid) references repairItem(itemid),
-  foreign key (repairpersonid) references repairPerson(employeeNo),
+  foreign key (customerid) references customer(customerid),
+  foreign key (machineid) references repairJob(machineid),
+  foreign key (employeeid) references repairPerson(employeeid),
   foreign key (problemid) references problem(problemid)
 );
