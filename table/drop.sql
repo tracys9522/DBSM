@@ -1,7 +1,10 @@
-drop table customerBill;
-drop table repairJob;
-drop table customer;
-drop table serviceContract;
-drop table problemReport;
-drop table repairPerson;
-drop table repairItem;
+drop table problemReport cascade constraints;
+drop table customerBill cascade constraints;
+drop table singleContract cascade constraints;
+drop table groupContract cascade constraints;
+drop table repairPerson cascade constraints;
+drop table problem cascade constraints;
+drop table repairJob cascade constraints;
+drop table serviceContract cascade constraints;
+drop table repairItem cascade constraints;
+drop table customer cascade constraints;
