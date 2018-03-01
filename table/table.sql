@@ -1,13 +1,13 @@
-drop table customerBill;
-drop table problemReport;
-drop table problem;
-drop table repairJob;
-drop table repairItem;
-drop table singleContract;
-drop table groupContract;
-drop table serviceContract;
-drop table customer;
-drop table repairPerson;
+drop table problemReport cascade constraints;
+drop table customerBill cascade constraints;
+drop table singleContract cascade constraints;
+drop table groupContract cascade constraints;
+drop table repairPerson cascade constraints;
+drop table problem cascade constraints;
+drop table repairJob cascade constraints;
+drop table serviceContract cascade constraints;
+drop table repairItem cascade constraints;
+drop table customer cascade constraints;
 
 create table customer(
   customerid varchar(5) primary key,
@@ -64,15 +64,13 @@ create table repairItem
 create table repairJob
 (
   machineid varchar(5) primary key,
-  itemid varchar(5),
   servicecontractid varchar(5),
   arrivaltime timestamp,
   customerid varchar(5),
   status varchar(15) not null,
   check (status in('UNDER_REPAIR','READY','DONE')),
   foreign key (servicecontractid) references serviceContract(contractid),
-  foreign key (customerid) references customer(customerid),
-  foreign key (itemid) references repairItem(itemid)
+  foreign key (customerid) references customer(customerid)
 );
 
 create table problem
@@ -81,12 +79,15 @@ create table problem
   	description varchar(10)
 );
 
+
 create table problemReport
 (
     machineid varchar(5) primary key,
     problemid varchar(5),
+	itemid varchar(5),
     foreign key (machineid) references repairJob(machineid),
-	foreign key (problemid) references problem(problemid)
+	foreign key (problemid) references problem(problemid),
+	foreign key (itemid) references repairItem(itemid)
 );
 
 create table customerBill
