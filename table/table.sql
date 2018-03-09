@@ -84,18 +84,10 @@ create table problemReport
 (
     machineid varchar(5) primary key,
     problemid varchar(5),
+    itemid varchar(5),
     foreign key (machineid) references repairJob(machineid),
-	foreign key (problemid) references problem(problemid),
-);
-
-create table has
-(
-    machineid varchar(5) primary key,
-    problemid varchar(5),
-	itemid varchar(5),
-    foreign key (machineid) references repairJob(machineid),
-	foreign key (problemid) references problem(problemid),
-	foreign key (itemid) references repairItem(itemid)
+	  foreign key (problemid) references problem(problemid),
+  	foreign key (itemid) references repairItem(itemid)
 );
 
 create table customerBill

@@ -19,3 +19,6 @@ insert into problem values('p4','damaged');
 insert into repairPerson values('e1','john',4084010004);
 insert into repairPerson values('e2','jaime',4084010005);
 insert into repairPerson values('e3','jack',4084010006);
+
+insert into repairItem values('i1','cust1','lenovo',2000,'2015','COMPUTER','SINGLE');
+insert into repairItem values('i2','cust3','asus',900,'2015','COMPUTER','SINGLE');
