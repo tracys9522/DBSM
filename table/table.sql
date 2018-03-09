@@ -19,7 +19,7 @@ create table repairPerson
 (
   employeeid varchar(5) primary key,
   name varchar(15) not null,
-  phone char(10) not null
+  phone INTEGER not null
 );
 
 create table serviceContract
