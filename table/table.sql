@@ -12,7 +12,7 @@ drop table customer cascade constraints;
 create table customer(
   customerid varchar(5) primary key,
   name varchar(10) not null,
-  phoneno char(10) not null unique
+  phoneno INTEGER not null unique
 );
 
 create table repairPerson
