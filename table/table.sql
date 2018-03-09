@@ -76,7 +76,7 @@ create table repairJob
 create table problem
 (
   	problemid varchar(5) primary key,
-  	description varchar(10)
+  	description varchar(20)
 );
 
 
