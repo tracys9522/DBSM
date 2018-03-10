@@ -1,8 +1,17 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+   </head>
+  <body>
+
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+   $custid = uniqid();
    $name = $_POST['name'];
-   $phone = $_POST['phoneno'];
+   $phoneno = $_POST['phoneno'];
 
    // Validate input
    if (!empty($name)){
@@ -13,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	 $phoneno = prepareInput($phoneno);
    }
 
-   insertCustomerIntoDB($name,$phoneno);
+   insertCustomerIntoDB($custid,$name,$phoneno);
 }
 
 function prepareInput($inputData){
@@ -22,32 +31,47 @@ function prepareInput($inputData){
   return $inputData;
 }
 
-function insertCustomerIntoDB($name,$phoneno){
+function insertCustomerIntoDB($custid,$name,$phoneno){
 
 	//connect to your database
-	$conn=oci_connect('tsun','pass', '//dbserver.engr.scu.edu/db11g');
+	$conn=oci_connect('etseng','9679476', '//dbserver.engr.scu.edu/db11g');
 	if(!$conn) {
 	     print "<br> connection failed:";
        exit;
 	}
 
-  $phoneno = (char) $phoneno;
+  $query = oci_parse($conn, "Insert Into customer(customerid, name,phoneno) values(:customerid,:name,:phoneno)");
 
-  $query = oci_parse($conn, "Insert Into customer(name,phoneno) values(:name,:phoneno)");
+	// Prog  <body>ram variables are bound to SQL statement
 
-	// Program variables are bound to SQL statement
-
+	oci_bind_by_name($query, ':customerid', $custid);
 	oci_bind_by_name($query, ':name', $name);
 	oci_bind_by_name($query, ':phoneno', $phoneno);
 
 	// Execute the query
 	$res = oci_execute($query);
-	if ($res)
-		echo '<br><br> <p style="color:green;font-size:20px">Data successfully inserted</p>';
+	if ($res){
+		echo '<p style="color:green;font-size:20px">Welcome '.$name.'</p>';
+		echo '<p style="color:red;font-size:18px">Here is your customer id. </p>';
+		echo $custid;
+		echo '<p></p>';
+		echo '<button type="button" onclick="history.back();">Back</button>';
+	}	
 	else{
 		$e = oci_error($query);
         	echo $e['message'];
 	}
 	OCILogoff($conn);
 }
+
+
+
+
 ?>
+  <p>
+    Add item for repair
+    <input type ="button" value="Continue" onclick="window.location.href = 'repair.html'">
+  </p>
+   </body>
+</html>
+
