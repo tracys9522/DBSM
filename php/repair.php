@@ -1,15 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+
 <?php
+
+$cError = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+   $itemid = uniqid();
+   $custid = $_POST['custid'];
    $item = $_POST['item'];
-   $model = $_POST['model'];
+   //$model = $_POST['model'];
    $price = $_POST['price'];
    $year = $_POST['year'];
+   //$selection = $_POST['SC'];
+   $serviceContract = $_POST['serviceContract'];
+
+
+  if(isset($_POST['model']))
+  {
+    $model = $_POST['model'];
+  }
+  else
+  {
+    $model = null;
+  }
+
 
 
    // Validate input
    if (!empty($item)){
 	 $item = prepareInput($item);
+	 $itemid = prepareInput($itemid);
+   }
+
+   if (!empty($custid)){
+	 $custid = prepareInput($custid);
    }
 
    if (!empty($model)){
@@ -23,9 +51,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	 $year = prepareInput($year);
    }
 
-   insertRepairIntoDB($item,$model,$price,$year);
+  if (!empty($serviceContract)){
+	  $serviceContract = prepareInput($serviceContract);
+   }
+
+  /*if($serviceContract != 'GROUP'){
+	  $cError = "Need a group contract to add another item";
+   }*/
+	  
+
+   insertRepairIntoDB($itemid,$custid,$model,$price,$year,$item, $serviceContract);
+   //insertRepair2IntoDB($itemid2,$custid,$model2,$price2,$year2,$item2, $serviceContract2);
 
 }
+
+   //getContract($selection);
 
 function prepareInput($inputData){
   $inputData = trim($inputData);
@@ -33,24 +73,28 @@ function prepareInput($inputData){
   return $inputData;
 }
 
-function insertRepairIntoDB($item,$model,$price,$year){
+function insertRepairIntoDB($itemid,$custid,$model,$price,$year,$item, $serviceContract){
 
 	//connect to your database
-	$conn=oci_connect('tsun','krit922954', '//dbserver.engr.scu.edu/db11g');
+	$conn=oci_connect('etseng','9679476', '//dbserver.engr.scu.edu/db11g');
 	if(!$conn) {
 	     print "<br> connection failed:";
        exit;
 	}
 
-	$price = (float) $price;
+	//$price2 = (float) $price2;
 
-	$query = oci_parse($conn, "Insert Into repairItem(itemid,item,model,price,year) values(NULL,UPPER(:item),UPPER(:model),:price,:year)");
+	$query = oci_parse($conn, "Insert Into repairItem(itemid,custid,model,price,year,item, serviceContractType) values(:itemid,:custid,UPPER(:model),:price,:year, UPPER(:item),:serviceContract)");
 
 	// Program variables are bound to SQL statement
-	oci_bind_by_name($query, ':item', $item);
+	
+	oci_bind_by_name($query, ':itemid',$itemid);
+	oci_bind_by_name($query, ':custid',$custid);
 	oci_bind_by_name($query, ':model', $model);
 	oci_bind_by_name($query, ':price', $price);
 	oci_bind_by_name($query, ':year', $year);
+	oci_bind_by_name($query, ':item', $item);
+	oci_bind_by_name($query, ':serviceContract', $serviceContract);
 
 	// Execute the query
 	$res = oci_execute($query);
@@ -62,4 +106,28 @@ function insertRepairIntoDB($item,$model,$price,$year){
 	}
 	OCILogoff($conn);
 }
+
+/*function getContract($selection)
+{
+	$conn=oci_connect('etseng','9679476', '//dbserver.engr.scu.edu/db11g');
+	if(!$conn) {
+	     print "<br> connection failed:";
+       exit;
+	}
+
+        if($selection == "yesSC")
+	{
+	      
+	}
+	elseif($selection == "noSC")
+}*/
 ?>
+
+  <p>
+    Add another item for repair?
+    <input type ="button" value="Continue" onclick="window.location.href = 'repair2.html'">
+   </p>
+
+
+   </head>
+  <body>
