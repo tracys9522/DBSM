@@ -5,21 +5,23 @@ drop table groupContract cascade constraints;
 drop table repairPerson cascade constraints;
 drop table problem cascade constraints;
 drop table repairJob cascade constraints;
+drop table repairLog;
 drop table serviceContract cascade constraints;
 drop table repairItem cascade constraints;
 drop table customer cascade constraints;
 
+
 create table customer(
   customerid varchar(5) primary key,
   name varchar(10) not null,
-  phoneno INTEGER not null unique
+  phoneno integer not null unique
 );
 
 create table repairPerson
 (
   employeeid varchar(5) primary key,
   name varchar(15) not null,
-  phone INTEGER not null
+  phone integer not null
 );
 
 create table serviceContract
@@ -65,12 +67,25 @@ create table repairJob
 (
   machineid varchar(5) primary key,
   servicecontractid varchar(5),
-  arrivaltime timestamp,
+  arrivaltime date,
   customerid varchar(5),
+  coverage char(1) check(coverage in('Y','N')),
   status varchar(15) not null,
   check (status in('UNDER_REPAIR','READY','DONE')),
   foreign key (servicecontractid) references serviceContract(contractid),
   foreign key (customerid) references customer(customerid)
+);
+
+create table repairLog
+(
+    machineid varchar(5) primary key,
+    servicecontractid varchar(5),
+    arrivaltime date,
+    customerid varchar(5),
+    coverage char(1) check(coverage in('Y','N')),
+    status varchar(15) default 'DONE',
+    foreign key (servicecontractid) references serviceContract(contractid),
+    foreign key (customerid) references customer(customerid)
 );
 
 create table problem
@@ -82,12 +97,12 @@ create table problem
 
 create table problemReport
 (
-    machineid varchar(5) primary key,
+    machineid varchar(5),
     problemid varchar(5),
-    itemid varchar(5),
+	itemid varchar(5),
     foreign key (machineid) references repairJob(machineid),
-	  foreign key (problemid) references problem(problemid),
-  	foreign key (itemid) references repairItem(itemid)
+	foreign key (problemid) references problem(problemid),
+	foreign key (itemid) references repairItem(itemid)
 );
 
 create table customerBill
@@ -97,13 +112,13 @@ create table customerBill
   employeeid varchar(5),
   problemid varchar(5),
   model varchar(10),
-  timein timestamp,
-  timeout timestamp,
+  timein date,
+  timeout date,
   laborhours decimal(10,2),
   cost number(10,2),
   coverage char(1) check(coverage in('Y','N')),
   foreign key (customerid) references customer(customerid),
-  foreign key (machineid) references repairJob(machineid),
+  foreign key (machineid) references repairLog(machineid),
   foreign key (employeeid) references repairPerson(employeeid),
   foreign key (problemid) references problem(problemid)
 );
