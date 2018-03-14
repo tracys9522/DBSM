@@ -23,7 +23,7 @@ function showStatus($machineid){
 	  if($row[0] == $machineid){
 	      echo "Machine ID: " .$row[0]. "";
 	      echo "<p></p>";
-	      echo "Status: " .$row[4]. "";
+	      echo "Status: " .$row[5]. "";
 	  }
 	  
       }
