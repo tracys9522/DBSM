@@ -7,6 +7,7 @@
 //session_start();
 $custid  = '';
 $status = 'UNDER_REPAIR';
+$coverage = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    $itemid = $_POST['itemid'];
@@ -133,24 +134,36 @@ function insertRepairIntoDB($itemid,$phoneno,$model,$price,$year,$item, $service
   oci_execute($query2);
 
   while(($row = oci_fetch_array($query2, OCI_BOTH)) != false && $contractid != NULL){
-    if($contractid != $row[0])
+    if($contractid != $row[0]){
 	echo "Your machine has been accepted for repair. However, your service contract is invalid.";
+	$coverage = 'N';
+     }
     else{
       if($row[2]>=$tdate || $tdate >=$row[3]){
 	echo "Your service contract is valid and your machine has been accepted for repair. You will not be charged for repairs.";
+	$coverage = 'Y';
       }
       else{
 	echo "Your machine has been accepted for repair. However, your service contract is invalid.";
+	$coverage = 'N';
       }
     }
   }
+
+
+	if($serviceContract == 'NONE'){
+	echo "Your machine has been accepted for repair.";
+	$coverage = 'N';
+	}
+
 	$res = oci_execute($query);
 
-	$rJ = oci_parse($conn, "insert into repairjob(machineid,servicecontractid,arrivaltime,customerid,status) values(:itemid, :contractid, to_date(:ts, 'YYYY-MM-DD HH24:MI:SS'), :custid, :status)");
+	$rJ = oci_parse($conn, "insert into repairjob(machineid,servicecontractid,arrivaltime,customerid,coverage,status) values(:itemid, :contractid, to_date(:ts, 'YYYY-MM-DD HH24:MI:SS'), :custid, :coverage, :status)");
 	oci_bind_by_name($rJ, ':itemid', $itemid);
 	oci_bind_by_name($rJ, ':contractid', $contractid);
 	oci_bind_by_name($rJ, ':ts', $ts);
 	oci_bind_by_name($rJ, ':custid', $custid);
+	oci_bind_by_name($rJ, ':coverage', $coverage);
 	oci_bind_by_name($rJ, ':status', $status);
 
 	oci_execute($rJ);
@@ -162,6 +175,7 @@ function insertRepairIntoDB($itemid,$phoneno,$model,$price,$year,$item, $service
 		$e = oci_error($query);
         	echo $e['message'];
 	}
+
 
 	echo "<p></p>";
 	echo "This is your machine id for your " .$item. ".";
