@@ -1,6 +1,5 @@
 create or replace procedure addbill(
 	l_mach in customerBill.machineid%type,
-	l_prob in customerBill.problemid%type,
 	l_emp in customerBill.employeeid%type,
 	l_cost in customerBill.cost%type,
 	l_hour in customerBill.laborhours%type,
@@ -24,7 +23,7 @@ begin
 	from repairItem
 	where itemid = l_mach;
 
-	insert into customerBill values(l_mach,l_cust,l_emp,l_prob,l_model,l_in,l_out,l_hour,l_cost,l_coverage);
+	insert into customerBill values(l_mach,l_cust,l_emp,l_model,l_in,l_out,l_hour,l_cost,l_coverage);
 
 end;
 /
