@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+   </head>
+  <body>
+
 <?php
 
 showlog();
@@ -26,3 +33,9 @@ function showlog(){
 	OCILogoff($conn);
 }
 ?>
+
+  <p>
+    <input type ="button" value="Go Back" onclick="window.location.href = 'employee.html'">
+  </p>
+   </body>
+</html>
