@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+   </head>
+  <body>
+
 <?php
 
 showjob();
@@ -26,3 +33,8 @@ function showjob(){
 	OCILogoff($conn);
 }
 ?>
+  <p>
+    <input type ="button" value="Back" onclick="window.location.href = 'employee.html'">
+  </p>
+   </body>
+</html>
