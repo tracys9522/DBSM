@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+   </head>
+  <body>
+
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -43,5 +50,11 @@ function showstatus($machineid){
        	echo $e['message'];
 	}
 	OCILogoff($conn);
+
 }
 ?>
+  <p>
+    <input type ="button" value="Back" onclick="window.location.href = 'employee.html'">
+  </p>
+   </body>
+</html>
