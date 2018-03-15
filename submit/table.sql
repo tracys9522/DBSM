@@ -1,4 +1,3 @@
-
 drop table problemReport cascade constraints;
 drop table customerBill cascade constraints;
 drop table singleContract cascade constraints;
@@ -111,7 +110,6 @@ create table customerBill
   machineid varchar(5) primary key,
   customerid varchar(5),
   employeeid varchar(5),
-  problemid varchar(5),
   model varchar(10),
   timein date,
   timeout date,
@@ -120,6 +118,5 @@ create table customerBill
   coverage char(1) check(coverage in('Y','N')),
   foreign key (customerid) references customer(customerid),
   foreign key (machineid) references repairLog(machineid),
-  foreign key (employeeid) references repairPerson(employeeid),
-  foreign key (problemid) references problem(problemid)
+  foreign key (employeeid) references repairPerson(employeeid)
 );
