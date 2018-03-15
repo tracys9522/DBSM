@@ -2,16 +2,15 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    	$machineid = $_POST['machineid'];
-	$problemid = $_POST['problemid'];
 	$empid = $_POST['empid'];
 	$cost = $_POST['cost'];
 	$hour = $_POST['hour'];
    	$timeout = date('Y-m-d G:i:s');
 
-   	addbill($machineid,$problemid,$empid,$cost,$hour,$timeout);
+   	addbill($machineid,$empid,$cost,$hour,$timeout);
 }
 
-function addbill($machineid,$problemid,$empid,$cost,$hour,$timeout){
+function addbill($machineid,$empid,$cost,$hour,$timeout){
 
 	//connect to your database
 	$conn=oci_connect('tsun','krit922954', '//dbserver.engr.scu.edu/db11g');
@@ -23,11 +22,10 @@ function addbill($machineid,$problemid,$empid,$cost,$hour,$timeout){
 	$cost1 = floatval($cost);
 	$hour1 = floatval($hour);
 	
-	$sql = "call addbill(:machineid,:problemid,:empid,:cost,:hour,to_date(:timeout,'YYYY-MM-DD HH24:MI:SS'))";
+	$sql = "call addbill(:machineid,:empid,:cost,:hour,to_date(:timeout,'YYYY-MM-DD HH24:MI:SS'))";
   	$query = oci_parse($conn,$sql);
 	
 	oci_bind_by_name($query, ':machineid', $machineid);
-	oci_bind_by_name($query, ':problemid', $problemid);
 	oci_bind_by_name($query, ':empid', $empid);
 	oci_bind_by_name($query, ':cost', $cost1);
 	oci_bind_by_name($query, ':hour', $hour1);
@@ -44,5 +42,9 @@ function addbill($machineid,$problemid,$empid,$cost,$hour,$timeout){
        	echo $e['message'];
 	}
 	OCILogoff($conn);
+
+	echo '<script type="text/javascript">
+       window.location = "employee.html"
+    </script>';
 }
 ?>
