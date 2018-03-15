@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"/><title>Customer</title>
+</head>
+<body>
+<form method="post" action="http://students.engr.scu.edu/~tsun/cStatus.php">
+
+<fieldset>
+
+   <label style="font-size:18px" for="machineid">Machine ID:</label>
+   <input type="text" name="machineid" id="machineid">
+
+</fieldset>
+  <br/><br/>
+  <input type="submit" value="Enter">
+  <input type="reset" value="Reset" onclick = "window.location.href = 'cStatus.html'">
+  <p></p>
+
+ </form>
+ </body>
+</html>
